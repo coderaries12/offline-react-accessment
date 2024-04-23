@@ -39,8 +39,9 @@ function App() {
 
    // Validate name using mock API
    try {
-    const isValid = await isNameValid(newName); // Use isNameValid from mock API
-    setIsNameTaken(!isValid);
+    const isValid = await isNameValid(newName);
+    const isNameInTable = tableData.some(item => item.name === newName); // Check if name already exists in table data
+    setIsNameTaken(!isValid || isNameInTable); // If name is taken or already exists in table, set isNameTaken to true
   } catch (error) {
     console.error('Error checking name validity:', error);
   }
@@ -67,7 +68,48 @@ const handleClear = () => {
   return (
     <div className="App">
       <header className="App-header">
-       <p>Hello</p>
+       <form onSubmit={handleSubmit}>
+       <div className="form-group">
+          <div style={{display: 'flex',gap:'10px', flexDirection:'column'}}>
+            <div style={{display:'flex', gap: '7px'}}>
+            <label>Name </label>
+            <input type="text" value={name} onChange={handleNameChange} />
+            </div>
+            {isNameTaken && <span className="error-message">This name is already taken.</span>}
+          </div>
+          <div style={{display: 'flex',gap:'10px', marginLeft:'-25px'}}>
+            <label>Location </label>
+            <select value={selectedLocation} onChange={handleLocationChange}>
+              <option value="" className='options'>Select location</option>
+              {locations.map((location) => (
+                <option key={location} value={location}>
+                  {location}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div className="button-group">
+          <button type="button" onClick={handleClear}>Clear</button>
+          <button type="submit">Add</button>  
+        </div> 
+       </form>
+       <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Location</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tableData.map((data, index) => (
+            <tr key={index} className={index % 2 === 0 ? 'even-row' : 'odd-row'}>
+              <td>{data.name}</td>
+              <td>{data.location}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
       </header>
     </div>
   );
