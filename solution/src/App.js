@@ -13,6 +13,23 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [tableData, setTableData] = useState([])
 
+  // Fetch locations from mock API when component mounts
+  useEffect(() => {
+    const fetchLocations = async () => {
+      setIsLoading(true);
+      try {
+        const response = await axios.get('solution/src/mock-api/apis.js');
+        setLocations(response.data);
+      } catch (error) {
+        console.error('Error fetching locations:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchLocations();
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
