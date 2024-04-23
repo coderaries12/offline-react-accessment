@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
+import { isNameValid, getLocations } from './mock-api/apis'; // import mock API functions
 
 import logo from './logo.svg';
 import './App.css';
@@ -15,11 +16,12 @@ function App() {
 
   // Fetch locations from mock API when component mounts
   useEffect(() => {
+    // Fetch locations from mock API
     const fetchLocations = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get('solution/src/mock-api/apis.js');
-        setLocations(response.data);
+        const locationList = await getLocations(); // Use getLocations from mock API
+        setLocations(locationList);
       } catch (error) {
         console.error('Error fetching locations:', error);
       } finally {
@@ -29,6 +31,38 @@ function App() {
 
     fetchLocations();
   }, []);
+
+  // Function to handle name input change
+  const handleNameChange = async (e) => {
+    const newName = e.target.value;
+    setName(newName);
+
+   // Validate name using mock API
+   try {
+    const isValid = await isNameValid(newName); // Use isNameValid from mock API
+    setIsNameTaken(!isValid);
+  } catch (error) {
+    console.error('Error checking name validity:', error);
+  }
+};
+
+const handleLocationChange = (e) => {
+  setSelectedLocation(e.target.value);
+};
+
+const handleSubmit = (e) => {
+  e.preventDefault();
+  if (!isNameTaken && selectedLocation !== '') {
+    setTableData([...tableData, { name, location: selectedLocation }]);
+    setName('');
+    setSelectedLocation('');
+  }
+};
+
+const handleClear = () => {
+  setName('');
+  setSelectedLocation('');
+};
 
   return (
     <div className="App">
