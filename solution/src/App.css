@@ -13,16 +13,6 @@
   }
 }
 
-/* .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-} */
 .App-header {
   display: inline-block;
   max-width: 50rem; 
@@ -34,7 +24,7 @@
 
 /* Form groups */
 .form-group {
-  margin-bottom: 50px;
+  margin-bottom: 100px;
   display: flex;
   flex-direction: column;
   gap: 40px;
@@ -60,10 +50,6 @@ select {
   box-sizing: border-box;
 }
 
-select::-ms-expand {
-  border:2px solid red;
-  width: 50px;
-}
 
 /* Error message */
 .error-message {
