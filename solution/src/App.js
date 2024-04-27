@@ -1,3 +1,4 @@
+// All imports are done here
 import React, {useState, useEffect} from 'react';
 import { isNameValid, getLocations } from './mock-api/apis'; // import mock API functions
 import logo from './logo.svg';
@@ -38,7 +39,6 @@ function App() {
     // If input contains only letters or whitespace, update the name state
     setName(newName);
   }
-
    // Validate name using mock API
    try {
     const isValid = await isNameValid(newName);
